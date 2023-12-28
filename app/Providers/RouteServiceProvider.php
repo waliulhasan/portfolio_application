@@ -18,6 +18,17 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    public const ADMIN_HOME = '/admin/dashboard';
+
+    /***
+     * The controller namespace for the application.
+     *
+     * when present, controller route declarations will automatically be prefixed with this namespace.
+     *
+     */
+
+     protected $namespace = 'App\\Http\\Controllers\\';
+
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

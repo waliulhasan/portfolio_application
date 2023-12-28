@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +31,27 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+// Admin Routes
+
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
+
+    // Route::namespace('Auth')->group(function(){
+    //     // Login route
+    //     Route::get('/login', 'Admin\Auth\AuthenticatedSessionController@create')->name('login');
+    // });
+
+    Route::middleware('guest:admin')->group(function (){
+        Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login'); // this is for admin login ui
+        Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('adminLogin'); // login credentials check for admin login
+    });
+
+    Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout'); // admin logout route
+
+    Route::middleware('admin')->group(function (){
+        Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard'); // admin dashboard ui
+    });
+
+});
